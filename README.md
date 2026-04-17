@@ -28,13 +28,13 @@ Dimensionality Reduction: Dropped CustomerID (no predictive value) and  redundan
 ​Handling Imbalance: Applied a 1:4 Class Weight, penalizing the model more heavily for missing a churner than for misidentifying a loyal customer.
 ​Hyperparameter Tuning: Optimized via GridSearchCV (n_estimators: 100, min_samples_split: 5) and cross validated it
 ### The Imbalance Challenge
-Our baseline model suffered from a massive class imbalance, leading to a "disaster" recall. By implementing Cost-Sensitive Learning (Custom Class Weights), we shifted the model's focus to the churners.
+### The Imbalance Challenge
+Our baseline model suffered from a massive class imbalance, leading to a "disaster" recall. By implementing Cost-Sensitive Learning (Custom Class Weights), we shifted the model's focus to the churners, significantly improving our ability to detect them.
 
-| Baseline Performance (0.02 Recall) | Optimized Performance (0.94 Recall) |
+| Baseline Performance (0.02 Recall) | Optimized Performance (0.32 Recall) |
 | :---: | :---: |
 | ![Baseline CF](assets/baseline_confusion_matrix.png) | ![Final CF](assets/final_confusion_matrix.png) |
-
-| *Initial model: Missing almost all churners.* | *Final model: Successfully identifying 94% of churners.* |
+| *Initial model: Missing almost all churners.* | *Final model: Improved recall to 0.32, capturing significantly more churners implying 1,500% recall improvement from initial baseline model.* 
 ​Feature Importance: 
 ​Total Expenditure: Highest impact driver.
 ​Login Frequency: Critical behavioral marker.
