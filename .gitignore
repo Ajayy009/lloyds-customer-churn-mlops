@@ -3,3 +3,5 @@ pycache/
 .venv/
 .env
 .DS_Store
+mlflow.db
+mlruns/
