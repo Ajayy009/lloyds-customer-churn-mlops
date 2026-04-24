@@ -9,11 +9,17 @@ services:
     volumes:
       - shared-mlflow-data:/mlflow_data
     command: >
-      mlflow server 
-      --host 0.0.0.0 
-      --port 5000 
-      --backend-store-uri sqlite:////mlflow_data/mlflow.db 
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri sqlite:////mlflow_data/mlflow.db
       --default-artifact-root /mlflow_data/artifacts
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:5000')\""]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
   api_service:
     build: .
@@ -21,7 +27,8 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - mlflow_server
+      mlflow_server:
+        condition: service_healthy
     environment:
       - MLFLOW_TRACKING_URI=sqlite:////mlflow_data/mlflow.db
     volumes:

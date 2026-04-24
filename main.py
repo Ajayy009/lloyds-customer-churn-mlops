@@ -7,18 +7,17 @@ import os
 app = FastAPI()
 
 # 1. Setup Direct Connection to the Shared Volume
-MLFLOW_TRACKING_URI = "sqlite:///mlflow_data/mlflow.db"
+MLFLOW_TRACKING_URI = "sqlite:////mlflow_data/mlflow.db"
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
 
-# 2. Loading Logic
 try:
-    # Explicitly using the name we see in your screenshots
-    model_uri = "runs:/9400a78ea61c44ef95f5e882d182e406/model"
-    model = mlflow.pyfunc.load_model(model_uri=model_uri)
-    print(f"SUCCESS: Loaded {model_uri} from shared volume!")
-    model_source = "MLflow Registry (Shared Volume)"
+    # Load from MLflow registry
+    model_uri = "models:/Lloyds_Churn_Production_Project_V2/1"
+    model = mlflow.pyfunc.load_model(model_uri)
+    print("SUCCESS: Loaded from MLflow Registry!")
+    model_source = "MLflow Registry"
 except Exception as e:
-    print(f"MLflow Access failed ({e}). Falling back to local pickle...")
+    print(f"MLflow failed ({e}). Using pickle...")
     model = joblib.load("model.pkl")
     model_source = "Local Pickle (Backup)"
 
